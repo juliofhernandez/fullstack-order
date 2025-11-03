@@ -6,7 +6,6 @@ import com.juliofhernandez.fullstackorder.dto.UserDTO;
 import com.juliofhernandez.fullstackorder.entity.Order;
 import com.juliofhernandez.fullstackorder.mapper.OrderMapper;
 import com.juliofhernandez.fullstackorder.repo.OrderRepo;
-import com.netflix.spectator.impl.PatternExpr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -14,8 +13,8 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class OrderService {
 
-    private OrderRepo orderRepo;
-    private SequenceGenerator sequenceGenerator;
+    private final OrderRepo orderRepo;
+    private final SequenceGenerator sequenceGenerator;
 
     @Autowired
     RestTemplate restTemplate;
@@ -31,7 +30,7 @@ public class OrderService {
         // Create a new Order entity using the OrderDTOFromFE data
         Order orderToSave = new Order(
                 newOrderId,
-                orderDTOFromFE.getFoodItemsList(),
+                orderDTOFromFE.getFoodItemList(),
                 fetchUserById(orderDTOFromFE.getUserId()), // Fetch the user by ID using the User service
                 orderDTOFromFE.getRestaurant()
         );
